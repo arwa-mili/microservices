@@ -5,33 +5,26 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.8</version>
+		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>all-micro</groupId>
-	<artifactId>wrap</artifactId>
+	<groupId>notifications.service</groupId>
+	<artifactId>notification</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<modules>
-		<module>ordersService</module>
-		<module>inventoryservice</module>
-		<module>productservice</module>
-		<module>register-discovery</module>
-		<module>Gateway</module>
-		<module>Config</module>
-		<module>notification</module>
-	</modules>
-	<name>wrap</name>
-	<description>wrap</description>
+	<name>notification</name>
+	<description>notification</description>
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
 		<java.version>17</java.version>
+		<spring-cloud.version>2022.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
 		<dependency>
@@ -44,20 +37,28 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 	</dependencies>
 
-<repositories>
-<repository>
-	<id>netflix-candidates</id>
-	<name>Netflix Candidates</name>
-	<url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
-	<snapshots>
-		<enabled>false</enabled>
-	</snapshots>
-</repository>
-</repositories>
-
+	<dependencyManagement>
+      <dependencies>
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-dependencies</artifactId>
+		<version>${spring-cloud.version}</version>
+		<type>pom</type>
+		<scope>import</scope>
+	</dependency>
+</dependencies>
+		</dependencyManagement>
 
 	<build>
 		<plugins>
@@ -72,27 +73,6 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-
-				<configuration>
-					<from>
-						<image>eclipse-temurin:17.0.4.1_1-jre</image>
-					</from>
-					<to>
-						<image>registry.hub.docker.com/arwamili/${project.artifactId}</image>
-					</to>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>dockerBuild</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
